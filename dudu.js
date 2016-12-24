@@ -21,38 +21,52 @@ var keybinding = {
 	z: 'do-', Z: 'do-#', x: 're-', X: 're-#', c: 'mi-', v: 'fa-',
 	V: 'fa-#', b: 'so-', B: 'so-#', n: 'la-', N: 'la-#', m: 'si-'
 }
-var noteReg = /^([a-z#0\+\-]+)((:([\d\.]+))|_|~)?$/;
+var regex = /^([a-z#0\+\-]+)((?:\:([\d\.]+))|=|_|\.|~)?(\^)?$/;
 var timer, playing;
 
-var playNotes = function(segment, current) {
+var playNotes = function(segment, current, osc) {
 	if (current >= segment.length) return;
 	var rhythm = dudu.rhythm,
 		breath = dudu.breath,
-		type = dudu.type;
-	var slices = segment[current].match(noteReg);
+		wave = dudu.wave;
+	var slices = segment[current].match(regex);
 	var note = slices[1];
 	var rate = 0;
+	var continuation = !!slices[4];
 	switch (slices[2]) {
 		case undefined: break;
-		case '~': rate = 2; break;
+		case '=': rate = 0.25; break;
 		case '_': rate = 0.5; break;
 		case '.': rate = 1.5; break;
-		default: rate = slices[4]; break;
+		case '~': rate = 2; break;
+		default: rate = slices[3]; break;
 	}
 	if (rate) rhythm = rate * (rhythm + breath) - breath;
-	var osc = context.createOscillator();
-	osc.type = type;
-	if (typeof notes[note] != 'undefined')  {
+	var created = !osc
+	if (created) {
+		var osc = context.createOscillator();
+		osc.type = wave;
+	}
+	if (typeof notes[note] !== 'undefined')  {
 		osc.frequency.value = notes[note];
-		osc.start();
+		if (created) osc.start();
 		osc.connect(context.destination);
 		playing = osc;
 	}
 	timer = setTimeout(function(){
-		osc.disconnect();
-		setTimeout(function() {
-			timer = playNotes(segment, current + 1);
-		}, breath);
+		if (continuation) {
+			setTimeout(function() {
+				osc.disconnect();
+				timer = dudu.transition === 'smooth' ?
+					playNotes(segment, current + 1, osc) :
+					playNotes(segment, current + 1);
+			}, breath);
+		} else {
+			osc.disconnect();
+			setTimeout(function() {
+				timer = playNotes(segment, current + 1);
+			}, breath);
+		}
 	}, rhythm);
 	return timer;
 }
@@ -60,7 +74,8 @@ var playNotes = function(segment, current) {
 var dudu = {
 	rhythm: 300,
 	breath: 30,
-	type: 'square',
+	wave: 'square',
+	transition: 'normal',
 	melody: {},
 	clock: 0,
 	keyboard: function() {
@@ -69,7 +84,7 @@ var dudu = {
 			var freq = notes[keybinding[key]];
 			var osc = context.createOscillator();
 			osc.frequency.value = freq;
-			osc.type = this.type;
+			osc.type = this.wave;
 			osc.start();
 			oscillators[key] = osc;
 		}
@@ -95,7 +110,7 @@ var dudu = {
 		var args = Array.prototype.slice.call(arguments, 2);
 		this.melody[title] = {
 			rhythm: rhythm,
-			music: args.join('')
+			music: args.join(' ')
 		}
 	},
 	sing: function(title) {
