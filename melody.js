@@ -65,7 +65,8 @@ dudu.write('好累', 800,
 	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ do_ do_ do_ do= mi=^ mi~',
 	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ fa_ mi_ do= re_ re=^ re~',
 	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ do_ do_ do_ do= mi=^ mi~',
-	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ fa= mi= do= do= 0_ fa= mi= do= do= 0_ fa= mi= do= do='
+	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ fa= mi= do= do= 0_ fa= mi= do= do= 0_ fa= mi= do= do=',
+	'0 0'
 );
 dudu.write('好累啊', 800,
 	'0 0 0 0 0 so-_ do_ do_ re_ mi_ fa_',
@@ -112,5 +113,6 @@ dudu.write('好累啊', 800,
 	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ do_ do_ do_ do= mi=^ mi~',
 	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ fa_ mi_ do= re_ re=^ re~',
 	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ do_ do_ do_ do= mi=^ mi~',
-	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ fa= mi= do= do= 0_ fa= mi= do= do= 0_ fa= mi= do= do='
+	'mi_ so_ so_ mi= so=^ so= so_ mi= re_ do_ fa= mi= do= do= 0_ fa= mi= do= do= 0_ fa= mi= do= do=',
+	'0 0'
 );

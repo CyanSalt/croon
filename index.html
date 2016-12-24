@@ -8,7 +8,9 @@
 <button id="stop">嘟嘟休息了</button>
 <input id="title">
 <button id="sing">嘟嘟要唱歌</button>
+<button id="record">嘟嘟要录音</button>
 <p id="hint" style="display:none">唉，嘟嘟不会唱这个啦！</p>
+<p id="recording" style="display:none">正在录音，请稍候...</p>
 <script src="dudu.js"></script>
 <script src="melody.js"></script>
 <script>
@@ -16,6 +18,7 @@
 
 var titleElement = document.getElementById('title');
 var hintElement = document.getElementById('hint');
+var recordingElement = document.getElementById('recording');
 var fadeoutTimer = 0;
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -23,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	dudu.rhythm = 600;
 	// dudu.wave = 'sine';
 	// dudu.transition = 'smooth';
-	dudu.sing('好累');
+	// dudu.sing('好累');
 })
 document.getElementById('stop').addEventListener('click', function(){
 	dudu.rest();
@@ -35,9 +38,32 @@ document.getElementById('sing').addEventListener('click', function(){
 		clearTimeout(fadeoutTimer);
 		fadeoutTimer = setTimeout(function() {
 			hintElement.style.display = 'none';
-		}, 2000)
+		}, 2000);
+		return false;
 	};
 	dudu.sing(title);
+})
+document.getElementById('record').addEventListener('click', function(){
+	var title = titleElement.value;
+	if (!dudu.melody[title]) {
+		hintElement.style.display = '';
+		clearTimeout(fadeoutTimer);
+		fadeoutTimer = setTimeout(function() {
+			hintElement.style.display = 'none';
+		}, 2000);
+		return false;
+	};
+	var buttons = document.body.getElementsByTagName('button');
+	recordingElement.style.display = '';
+	for (var i = 0; i < buttons.length; ++i) {
+		buttons[i].setAttribute('disabled', 'disabled');
+	}
+	dudu.record(title, function() {
+		for (var i = 0; i < buttons.length; ++i) {
+			buttons[i].removeAttribute('disabled');
+		}
+		recordingElement.style.display = 'none';
+	});
 })
 
 })()

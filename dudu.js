@@ -22,13 +22,17 @@ var keybinding = {
 	V: 'fa-#', b: 'so-', B: 'so-#', n: 'la-', N: 'la-#', m: 'si-'
 }
 var regex = /^([a-z#0\+\-]+)((?:\:([\d\.]+))|=|_|\.|~)?(\^)?$/;
-var timer, playing;
+var timer, playing, signal = false;
 
 var playNotes = function(segment, current, osc) {
-	if (current >= segment.length) return;
+	if (current >= segment.length) {
+		signal = 'end';
+		return;
+	}
 	var rhythm = dudu.rhythm,
 		breath = dudu.breath,
-		wave = dudu.wave;
+		wave = dudu.wave,
+		destination = dudu.destination;
 	var slices = segment[current].match(regex);
 	var note = slices[1];
 	var rate = 0;
@@ -50,7 +54,7 @@ var playNotes = function(segment, current, osc) {
 	if (typeof notes[note] !== 'undefined')  {
 		osc.frequency.value = notes[note];
 		if (created) osc.start();
-		osc.connect(context.destination);
+		osc.connect(destination);
 		playing = osc;
 	}
 	timer = setTimeout(function(){
@@ -71,6 +75,39 @@ var playNotes = function(segment, current, osc) {
 	return timer;
 }
 
+var encodeWAV = function(wave) {
+	var frequency = context.sampleRate;
+	var pointSize = 16;
+	var channelNumber = 1;
+	var blockSize = channelNumber * pointSize / 8;
+	var length = wave.length * pointSize / 8;
+	var buffer = new Uint8Array(length + 44);
+	var view = new DataView(buffer.buffer);
+	buffer.set(new Uint8Array([0x52, 0x49, 0x46, 0x46])); // "RIFF"
+	view.setUint32(4, wave.length >> 10, true); // one per `audioprocess`
+	buffer.set(new Uint8Array([0x57, 0x41, 0x56, 0x45]), 8); // "WAVE"
+	buffer.set(new Uint8Array([0x66, 0x6D, 0x74, 0x20]), 12); // "fmt "
+	view.setUint32(16, 16, true); // WAV head
+	view.setUint16(20, 1, true); // encode type
+	view.setUint16(22, channelNumber, true); // channel number
+	view.setUint32(24, frequency, true); // frequency
+	view.setUint32(28, frequency * blockSize, true); // byte per second
+	view.setUint16(32, blockSize, true); // block size
+	view.setUint16(34, pointSize, true); // point size
+	buffer.set(new Uint8Array([0x64, 0x61, 0x74, 0x61]), 36); // "data"
+	view.setUint32(40, length, true); // data length
+	buffer.set(new Uint8Array(new Int16Array(wave).buffer), 44); // data
+	return new Blob([buffer], {type: "audio/wav"});
+}
+
+var downloadBlob = function(blob, filename) {
+	var link = document.createElement('a');
+	link.href = window.URL.createObjectURL(blob);
+	link.download = filename;
+	link.click();
+	window.URL.revokeObjectURL(link.href);
+}
+
 var dudu = {
 	rhythm: 300,
 	breath: 30,
@@ -78,6 +115,8 @@ var dudu = {
 	transition: 'normal',
 	melody: {},
 	clock: 0,
+	destination: context.destination,
+	recorder: [],
 	keyboard: function() {
 		var oscillators = {};
 		for (var key in keybinding) {
@@ -119,6 +158,26 @@ var dudu = {
 		this.rest();
 		this.rhythm = melody.rhythm;
 		this.croon(melody.music);
+	},
+	record: function(title, callback) {
+		var _this = this
+		this.recorder = [];
+		this.destination = context.createScriptProcessor(1024, 1, 1);
+		this.destination.connect(context.destination);
+		this.destination.onaudioprocess = function(e) {
+			if (signal === 'end') {
+				_this.destination.disconnect();
+				_this.destination = context.destination;
+				var blob = encodeWAV(_this.recorder);
+				downloadBlob(blob, title + '.wav');
+				callback && callback();
+				return signal = false;
+			}
+			e.inputBuffer.getChannelData(0).forEach(function(input) {
+				_this.recorder.push(input * 0x8000 | 0)
+			})
+		}
+		this.sing(title);
 	},
 	rest: function() {
 		timer && clearTimeout(timer);
