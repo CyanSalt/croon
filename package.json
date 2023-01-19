@@ -1,0 +1,33 @@
+{
+  "name": "croon",
+  "version": "0.1.0-0",
+  "description": "Toolkit for parsing and playing numbered musical notation",
+  "type": "module",
+  "main": "dist/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "prepack": "rm -rf dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CyanSalt/croon.git"
+  },
+  "keywords": [
+    "musical",
+    "notation"
+  ],
+  "author": "CyanSalt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CyanSalt/croon/issues"
+  },
+  "homepage": "https://github.com/CyanSalt/croon#readme",
+  "devDependencies": {
+    "@cyansalt/eslint-config-preset": "^1.11.0",
+    "@cyansalt/tsconfig": "^2.1.1",
+    "typescript": "^4.9.4"
+  }
+}
