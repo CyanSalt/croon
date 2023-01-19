@@ -1,5 +1,5 @@
 {
-  "name": "croon",
+  "name": "croonjs",
   "version": "0.1.0-0",
   "description": "Toolkit for parsing and playing numbered musical notation",
   "type": "module",
