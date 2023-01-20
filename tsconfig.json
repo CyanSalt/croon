@@ -2,6 +2,7 @@
   "extends": "@cyansalt/tsconfig/tsconfig.lib",
   "compilerOptions": {
     "noEmit": false,
+    "declaration": true,
     "rootDir": "src",
     "outDir": "dist"
   },
