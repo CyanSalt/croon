@@ -114,7 +114,8 @@ function parseToken(token: string): ParsedNode {
   }
   const noteMatches = token.match(/^(\^)?([#b])?([A-Za-z]+|[0-7])(\+*|-*)(_*\.*)(&)?$/)
   if (noteMatches) {
-    const dotCount = noteMatches[5].indexOf('.') + 1
+    const dotIndex = noteMatches[5].indexOf('.')
+    const dotCount = dotIndex === -1 ? 0 : noteMatches[5].length - dotIndex
     const underlineCount = noteMatches[5].length - dotCount
     return {
       kind: 'Note',
