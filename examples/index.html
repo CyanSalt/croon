@@ -33,10 +33,10 @@
           context,
           signal: controller.signal,
           type: 'square',
-          volume: 0.2,
+          volume: 0.1,
         }))
       )
-      loop()
+      return loop()
     }
     document.getElementById('play').addEventListener('click', () => {
       if (controller) {

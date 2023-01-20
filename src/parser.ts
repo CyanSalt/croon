@@ -41,10 +41,18 @@ export interface UnknownNode {
   raw: string,
 }
 
-export type Node = TempoNode | KeySignatureNode | TimeSignatureNode | NoteNode | DashNode | BarLineNode | UnknownNode
+export type ParsedNode =
+  TempoNode
+  | KeySignatureNode
+  | TimeSignatureNode
+  | NoteNode
+  | DashNode
+  | BarLineNode
+  | UnknownNode
 
-export interface Notation {
-  nodes: Node[],
+export interface ParsedNotation {
+  kind: 'Parsed',
+  nodes: ParsedNode[],
 }
 
 function transformNoteNotation(note: string): number {
@@ -77,7 +85,7 @@ function transformNoteNotation(note: string): number {
   }
 }
 
-function parseToken(token: string): Node {
+function parseToken(token: string): ParsedNode {
   const tempoMatches = token.match(/^!(\d+)$/)
   if (tempoMatches) {
     return {
@@ -138,9 +146,10 @@ function parseToken(token: string): Node {
   }
 }
 
-export function parse(score: string): Notation {
+export function parse(score: string): ParsedNotation {
   const tokens = score.split(/\s+/).filter(Boolean)
   return {
+    kind: 'Parsed',
     nodes: tokens.map(parseToken),
   }
 }
