@@ -1,5 +1,17 @@
 
 
+## [0.3.0](https://github.com/CyanSalt/croon/compare/v0.2.1...v0.3.0) (2023-01-27)
+
+
+### Features
+
+* support repeating and fine sign ([f420a82](https://github.com/CyanSalt/croon/commit/f420a8212c2012c5d4203071a02bff74884cc249))
+
+
+### Bug Fixes
+
+* add typings ([26e443c](https://github.com/CyanSalt/croon/commit/26e443c2932e1b8baceb864d6ac12ccb5c640b7c))
+
 ### [0.2.1](https://github.com/CyanSalt/croon/compare/v0.2.0...v0.2.1) (2023-01-20)
 
 
