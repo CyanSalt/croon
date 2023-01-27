@@ -1,25 +1,32 @@
-export interface TempoNode {
-  kind: 'Tempo',
+export interface BaseParsedNode {
+  type: string;
+  raw: string,
+  range: [number, number],
+}
+
+export interface TempoNode extends BaseParsedNode {
+  type: 'TempoNode',
+  /** Beats per minute */
   beat: number,
 }
 
-export interface KeySignatureNode {
-  kind: 'KeySignature',
+export interface KeySignatureNode extends BaseParsedNode {
+  type: 'KeySignatureNode',
   tonic: number,
   accidental: 0 | 1 | -1,
   pitch: string,
 }
 
-export interface TimeSignatureNode {
-  kind: 'TimeSignature',
+export interface TimeSignatureNode extends BaseParsedNode {
+  type: 'TimeSignatureNode',
   /** Beats per measure */
   beat: number,
   /** Beats per note */
   unit: number,
 }
 
-export interface NoteNode {
-  kind: 'Note',
+export interface NoteNode extends BaseParsedNode {
+  type: 'NoteNode',
   continuation: boolean,
   accidental: 0 | 1 | -1,
   notation: number,
@@ -28,17 +35,23 @@ export interface NoteNode {
   leaning: boolean,
 }
 
-export interface DashNode {
-  kind: 'Dash',
+export interface DashNode extends BaseParsedNode {
+  type: 'DashNode',
 }
 
-export interface BarLineNode {
-  kind: 'BarLine',
+export interface BarLineNode extends BaseParsedNode {
+  type: 'BarLineNode',
+  end: boolean,
+  repeat: 0 | 1 | -1,
 }
 
-export interface UnknownNode {
-  kind: 'Unknown',
-  raw: string,
+export interface FineNode extends BaseParsedNode {
+  type: 'FineNode',
+  except: number,
+}
+
+export interface UnknownNode extends BaseParsedNode {
+  type: 'UnknownNode',
 }
 
 export type ParsedNode =
@@ -48,10 +61,11 @@ export type ParsedNode =
   | NoteNode
   | DashNode
   | BarLineNode
+  | FineNode
   | UnknownNode
 
 export interface ParsedNotation {
-  kind: 'Parsed',
+  type: 'ParsedNotation',
   nodes: ParsedNode[],
 }
 
@@ -85,18 +99,23 @@ function transformNoteNotation(note: string): number {
   }
 }
 
-function parseToken(token: string): ParsedNode {
+function parseToken(token: string, index: number): ParsedNode {
+  const range: [number, number] = [index, index + token.length]
   const tempoMatches = token.match(/^!(\d+)$/)
   if (tempoMatches) {
     return {
-      kind: 'Tempo',
+      type: 'TempoNode',
+      range,
+      raw: token,
       beat: Number(tempoMatches[1]),
     }
   }
   const keySignatureMatches = token.match(/^([1-7])=([#b])?([A-G])$/)
   if (keySignatureMatches) {
     return {
-      kind: 'KeySignature',
+      type: 'KeySignatureNode',
+      range,
+      raw: token,
       tonic: Number(keySignatureMatches[1]),
       accidental: keySignatureMatches[2] === '#' ? 1 : (
         keySignatureMatches[2] === 'b' ? -1 : 0
@@ -107,7 +126,9 @@ function parseToken(token: string): ParsedNode {
   const timeSignatureMatches = token.match(/^(\d+)\/(\d+)$/)
   if (timeSignatureMatches) {
     return {
-      kind: 'TimeSignature',
+      type: 'TimeSignatureNode',
+      range,
+      raw: token,
       beat: Number(timeSignatureMatches[1]),
       unit: Number(timeSignatureMatches[2]),
     }
@@ -118,7 +139,9 @@ function parseToken(token: string): ParsedNode {
     const dotCount = dotIndex === -1 ? 0 : noteMatches[5].length - dotIndex
     const underlineCount = noteMatches[5].length - dotCount
     return {
-      kind: 'Note',
+      type: 'NoteNode',
+      range,
+      raw: token,
       continuation: Boolean(noteMatches[1]),
       accidental: noteMatches[2] === '#' ? 1 : (
         noteMatches[2] === 'b' ? -1 : 0
@@ -133,24 +156,46 @@ function parseToken(token: string): ParsedNode {
   }
   if (token === '-') {
     return {
-      kind: 'Dash',
+      type: 'DashNode',
+      range,
+      raw: token,
     }
   }
-  if (token === '|') {
+  const barLineMatches = token.match(/^(?:(\|{1,2})|(\|{2}:)|(:\|{2}))$/)
+  if (barLineMatches) {
     return {
-      kind: 'BarLine',
+      type: 'BarLineNode',
+      range,
+      raw: token,
+      end: Boolean(barLineMatches[1]) && token.length > 1,
+      repeat: barLineMatches[2] ? -1 : (barLineMatches[3] ? 1 : 0),
+    }
+  }
+  const fineMatches = token.match(/^\[(\d+)\.$/)
+  if (fineMatches) {
+    return {
+      type: 'FineNode',
+      range,
+      raw: token,
+      except: Number(fineMatches[1]),
     }
   }
   return {
-    kind: 'Unknown',
+    type: 'UnknownNode',
+    range,
     raw: token,
   }
 }
 
-export function parse(score: string): ParsedNotation {
-  const tokens = score.split(/\s+/).filter(Boolean)
+export function parse(notation: string): ParsedNotation {
+  const nodes: ParsedNode[] = []
+  let matches: RegExpExecArray | null
+  const matcher = /\S+/g
+  while (matches = matcher.exec(notation)) {
+    nodes.push(parseToken(matches[0], matches.index))
+  }
   return {
-    kind: 'Parsed',
-    nodes: tokens.map(parseToken),
+    type: 'ParsedNotation',
+    nodes,
   }
 }

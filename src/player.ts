@@ -3,35 +3,43 @@ import { digitize } from './digitizer.js'
 import type { ParsedNotation } from './parser.js'
 
 interface AudioOptions {
-  type?: OscillatorType,
-  volume?: number,
+  waveform?: OscillatorType,
+  gain?: number,
 }
 
-function generateAudioNodes(context: AudioContext, notation: DigitizedNotation, options?: AudioOptions) {
+function generateAudioNodes(
+  context: AudioContext,
+  notation: DigitizedNotation,
+  options?: AudioOptions
+): {
+  source: AudioScheduledSourceNode,
+  destination: AudioNode,
+  duration: number,
+} {
   const oscillator = context.createOscillator()
   const gain = context.createGain()
-  if (options?.type) {
-    oscillator.type = options.type
+  if (options?.waveform) {
+    oscillator.type = options.waveform
   }
-  const volume = options?.volume
-  if (volume) {
-    gain.gain.value = volume
+  const baseGain = options?.gain
+  if (baseGain) {
+    gain.gain.value = baseGain
   }
   const initialTime = context.currentTime
   for (const node of notation.nodes) {
-    switch (node.kind) {
-      case 'Frequency':
+    switch (node.type) {
+      case 'FrequencyNode':
         oscillator.frequency.setValueAtTime(node.value, initialTime + node.time)
         break
-      case 'Break':
+      case 'BreakNode':
         gain.gain.setValueAtTime(0, node.time)
-        gain.gain.exponentialRampToValueAtTime(volume ?? 1, initialTime + node.time + node.post / 16)
+        gain.gain.exponentialRampToValueAtTime(baseGain ?? 1, initialTime + node.time + node.base / 64)
         break
     }
   }
   oscillator.connect(gain)
   return {
-    oscillator,
+    source: oscillator,
     destination: gain,
     duration: notation.duration,
   }
@@ -49,22 +57,22 @@ class AbortError extends Error {
 }
 
 export function play(notation: string | ParsedNotation | DigitizedNotation, options?: PlayOptions) {
-  if (typeof notation === 'string' || notation.kind === 'Parsed') {
+  if (typeof notation === 'string' || notation.type === 'ParsedNotation') {
     notation = digitize(notation)
   }
   const context = options?.context ?? new AudioContext()
-  const { oscillator, destination, duration } = generateAudioNodes(context, notation, options)
+  const { source, destination, duration } = generateAudioNodes(context, notation, options)
   return new Promise((resolve, reject) => {
     if (options?.signal) {
       options.signal.addEventListener('abort', () => {
-        oscillator.stop()
+        source.stop()
         reject(new AbortError())
       })
     }
     destination.connect(context.destination)
-    oscillator.start()
-    oscillator.stop(duration)
-    oscillator.addEventListener('ended', () => {
+    source.start()
+    source.stop(duration)
+    source.addEventListener('ended', () => {
       resolve(undefined)
     })
   })

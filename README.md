@@ -31,11 +31,11 @@ function play(notation: string | ParsedNotation | DigitizedNotation, options?: P
 
 `options` could have the following properties:
 
-- `type?: "custom" | "sawtooth" | "sine" | "square" | "triangle"`
+- `waveform?: "custom" | "sawtooth" | "sine" | "square" | "triangle"`
 
   Specify what shape of waveform the oscillator will output. See also [here](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type).
 
-- `volume?: number`
+- `gain?: number`
 
   Specify the global volume of the audio. Defaults to `1`.
 

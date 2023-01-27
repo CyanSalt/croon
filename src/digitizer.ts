@@ -9,21 +9,21 @@ function getPianoKeyFrequency(number: number) {
 }
 
 export interface FrequencyNode {
-  kind: 'Frequency',
+  type: 'FrequencyNode',
   value: number,
   time: number,
 }
 
 export interface BreakNode {
-  kind: 'Break',
-  post: number,
+  type: 'BreakNode',
+  base: number,
   time: number,
 }
 
 export type DigitizedNode = FrequencyNode | BreakNode
 
 export interface DigitizedNotation {
-  kind: 'Digitized',
+  type: 'DigitizedNotation',
   nodes: DigitizedNode[],
   duration: number,
 }
@@ -34,26 +34,35 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
   }
   const nodes: DigitizedNode[] = []
   let currentTime = 0
+  /** Seconds per beat */
   let currentDuration = 1
   let currentKeyNumber = 40
   let currentUnit = 4
   let hasLeaning = false
-  for (const node of notation.nodes) {
-    switch (node.kind) {
-      case 'Tempo':
+  let currentRepeatingFrom = 0
+  let currentRepeating = 1
+  let currentFineExcept = 0
+  for (let index = 0, length = notation.nodes.length; index < length; index += 1) {
+    const node = notation.nodes[index]
+    if (
+      currentFineExcept && currentFineExcept !== currentRepeating
+      && !(node.type === 'BarLineNode' && node.repeat === 1)
+    ) continue
+    switch (node.type) {
+      case 'TempoNode':
         currentDuration = 60 / node.beat
         break
-      case 'KeySignature': {
+      case 'KeySignatureNode': {
         const pitchCode = node.pitch.toUpperCase().charCodeAt(0)
         currentKeyNumber = pitchCode + (pitchCode < CODE_C ? 12 : 0) - CODE_C
           + MIDDLE_C_NUMBER
           + node.accidental
         break
       }
-      case 'TimeSignature':
+      case 'TimeSignatureNode':
         currentUnit = node.unit
         break
-      case 'Note': {
+      case 'NoteNode': {
         const frequency = node.notation === 0 ? 0 : getPianoKeyFrequency(
           currentKeyNumber
           + node.accidental
@@ -61,16 +70,16 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
           + 12 * node.octave,
         )
         const actualDuration = node.length * currentDuration * 4 / currentUnit
-        const leaningDuration = hasLeaning ? actualDuration / 4 : 0
+        const leaningDuration = hasLeaning ? currentDuration / 4 : 0
         nodes.push({
-          kind: 'Frequency',
+          type: 'FrequencyNode',
           value: frequency,
           time: currentTime + leaningDuration,
         })
         if (!node.continuation && !hasLeaning && node.notation) {
           nodes.push({
-            kind: 'Break',
-            post: actualDuration,
+            type: 'BreakNode',
+            base: currentDuration,
             time: currentTime,
           })
         }
@@ -84,17 +93,36 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
         }
         break
       }
-      case 'Dash': {
+      case 'DashNode': {
         const actualDuration = currentDuration * 4 / currentUnit
         currentTime += actualDuration
         break
       }
+      case 'BarLineNode':
+        if (node.repeat === -1) {
+          currentRepeatingFrom = index
+        } else if (node.repeat === 1) {
+          // TODO: multiple repeating
+          if (currentRepeating <= 1) {
+            index = currentRepeatingFrom
+            currentRepeating += 1
+            currentFineExcept = 0
+          } else {
+            currentRepeatingFrom = 0
+            currentRepeating = 1
+            currentFineExcept = 0
+          }
+        }
+        break
+      case 'FineNode':
+        currentFineExcept = node.except
+        break
       default:
         // ignore
     }
   }
   return {
-    kind: 'Digitized',
+    type: 'DigitizedNotation',
     nodes,
     duration: currentTime,
   }
