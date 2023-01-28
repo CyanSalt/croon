@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/CyanSalt/croon#readme",
   "devDependencies": {
-    "@cyansalt/eslint-config-preset": "^1.11.0",
+    "@cyansalt/eslint-config-preset": "^1.11.1",
     "@cyansalt/tsconfig": "^2.1.1",
     "@release-it/conventional-changelog": "^5.1.1",
     "release-it": "^15.6.0",
