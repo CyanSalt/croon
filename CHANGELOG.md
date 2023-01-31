@@ -1,5 +1,17 @@
 
 
+## [0.4.0](https://github.com/CyanSalt/croon/compare/v0.3.0...v0.4.0) (2023-01-31)
+
+
+### Features
+
+* support simulation ([5d7ef40](https://github.com/CyanSalt/croon/commit/5d7ef40a065d57ca60f99a72813c4c49e2e0514d))
+
+
+### Bug Fixes
+
+* example ([fce2efb](https://github.com/CyanSalt/croon/commit/fce2efb29d69dee62bcd99980f4e97a89cae0bbd))
+
 ## [0.3.0](https://github.com/CyanSalt/croon/compare/v0.2.1...v0.3.0) (2023-01-27)
 
 
