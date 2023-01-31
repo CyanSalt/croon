@@ -121,6 +121,11 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
         // ignore
     }
   }
+  nodes.push({
+    type: 'BreakNode',
+    base: currentDuration,
+    time: currentTime,
+  })
   return {
     type: 'DigitizedNotation',
     nodes,

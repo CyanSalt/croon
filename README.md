@@ -39,6 +39,10 @@ function play(notation: string | ParsedNotation | DigitizedNotation, options?: P
 
   Specify the global volume of the audio. Defaults to `1`.
 
+- `simulation?: 'keyboard'`
+
+  Simulate the effect of an instrument. Currently supports `'keyboard'` to simulate keyboard instruments.
+
 - `context?: AudioContext`
 
   By default, `play` will create an `AudioContext` instance automatically. However, it is also possible to make multiple scores play in the same context by specifying `context`. This is useful for playing multiple tracks at the same time.
