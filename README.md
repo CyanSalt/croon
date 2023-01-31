@@ -41,7 +41,7 @@ function play(notation: string | ParsedNotation | DigitizedNotation, options?: P
 
 - `simulation?: 'keyboard'`
 
-  Simulate the effect of an instrument. Currently supports `'keyboard'` to simulate keyboard instruments.
+  Simulate the effect of an instrument. Currently supports `'keyboard'` to simulate keyboard instruments or `'wind'` to simulate wind instruments.
 
 - `context?: AudioContext`
 

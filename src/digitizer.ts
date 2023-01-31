@@ -17,6 +17,7 @@ export interface FrequencyNode {
 export interface BreakNode {
   type: 'BreakNode',
   base: number,
+  target: number,
   time: number,
 }
 
@@ -80,6 +81,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
           nodes.push({
             type: 'BreakNode',
             base: currentDuration,
+            target: actualDuration,
             time: currentTime,
           })
         }
@@ -124,6 +126,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
   nodes.push({
     type: 'BreakNode',
     base: currentDuration,
+    target: 0,
     time: currentTime,
   })
   return {
