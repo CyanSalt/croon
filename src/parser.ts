@@ -1,7 +1,16 @@
+export interface Position {
+  line: number,
+  column: number,
+}
+
 export interface BaseParsedNode {
-  type: string;
+  type: string,
   raw: string,
   range: [number, number],
+  loc: {
+    start: Position,
+    end: Position,
+  },
 }
 
 export interface TempoNode extends BaseParsedNode {
@@ -31,7 +40,8 @@ export interface NoteNode extends BaseParsedNode {
   accidental: 0 | 1 | -1,
   notation: number,
   octave: number,
-  length: number,
+  dot: number,
+  half: number,
   leaning: boolean,
 }
 
@@ -99,13 +109,30 @@ function transformNoteNotation(note: string): number {
   }
 }
 
-function parseToken(token: string, index: number): ParsedNode {
-  const range: [number, number] = [index, index + token.length]
+function getPosition(source: string, index: number): Position {
+  const prefix = source.slice(0, index)
+  const breakIndexes = Array.from(prefix)
+    .map((item, itemIndex) => (item === '\n' ? itemIndex : -1))
+    .filter(itemIndex => itemIndex !== -1)
+  const lastBreakIndex = breakIndexes[breakIndexes.length - 1] ?? -1
+  return {
+    line: breakIndexes.length + 1,
+    column: (index - lastBreakIndex) + 1,
+  }
+}
+
+function parseToken(token: string, index: number, source: string): ParsedNode {
+  const range: BaseParsedNode['range'] = [index, index + token.length]
+  const loc: BaseParsedNode['loc'] = {
+    start: getPosition(source, index),
+    end: getPosition(source, index + token.length),
+  }
   const tempoMatches = token.match(/^!(\d+)$/)
   if (tempoMatches) {
     return {
       type: 'TempoNode',
       range,
+      loc,
       raw: token,
       beat: Number(tempoMatches[1]),
     }
@@ -115,6 +142,7 @@ function parseToken(token: string, index: number): ParsedNode {
     return {
       type: 'KeySignatureNode',
       range,
+      loc,
       raw: token,
       tonic: Number(keySignatureMatches[1]),
       accidental: keySignatureMatches[2] === '#' ? 1 : (
@@ -128,6 +156,7 @@ function parseToken(token: string, index: number): ParsedNode {
     return {
       type: 'TimeSignatureNode',
       range,
+      loc,
       raw: token,
       beat: Number(timeSignatureMatches[1]),
       unit: Number(timeSignatureMatches[2]),
@@ -141,6 +170,7 @@ function parseToken(token: string, index: number): ParsedNode {
     return {
       type: 'NoteNode',
       range,
+      loc,
       raw: token,
       continuation: Boolean(noteMatches[1]),
       accidental: noteMatches[2] === '#' ? 1 : (
@@ -150,7 +180,8 @@ function parseToken(token: string, index: number): ParsedNode {
       octave: noteMatches[4].startsWith('+') ? noteMatches[4].length : (
         noteMatches[4].startsWith('-') ? -noteMatches[4].length : 0
       ),
-      length: (2 ** -underlineCount) * ((2 ** (dotCount + 1) - 1) / 2 ** dotCount),
+      dot: dotCount,
+      half: underlineCount,
       leaning: Boolean(noteMatches[6]),
     }
   }
@@ -158,6 +189,7 @@ function parseToken(token: string, index: number): ParsedNode {
     return {
       type: 'DashNode',
       range,
+      loc,
       raw: token,
     }
   }
@@ -166,6 +198,7 @@ function parseToken(token: string, index: number): ParsedNode {
     return {
       type: 'BarLineNode',
       range,
+      loc,
       raw: token,
       end: Boolean(barLineMatches[1]) && token.length > 1,
       repeat: barLineMatches[2] ? -1 : (barLineMatches[3] ? 1 : 0),
@@ -176,6 +209,7 @@ function parseToken(token: string, index: number): ParsedNode {
     return {
       type: 'FineNode',
       range,
+      loc,
       raw: token,
       except: Number(fineMatches[1]),
     }
@@ -183,6 +217,7 @@ function parseToken(token: string, index: number): ParsedNode {
   return {
     type: 'UnknownNode',
     range,
+    loc,
     raw: token,
   }
 }
@@ -191,11 +226,94 @@ export function parse(notation: string): ParsedNotation {
   const nodes: ParsedNode[] = []
   let matches: RegExpExecArray | null
   const matcher = /\S+/g
+  // eslint-disable-next-line no-cond-assign
   while (matches = matcher.exec(notation)) {
-    nodes.push(parseToken(matches[0], matches.index))
+    nodes.push(parseToken(matches[0], matches.index, notation))
   }
   return {
     type: 'ParsedNotation',
     nodes,
   }
+}
+
+export type Serializable<T extends BaseParsedNode> =
+  Omit<T, 'range' | 'loc'>
+  & Partial<Pick<T, 'range' | 'loc'>>
+
+export type SerializableParsedNode =
+  Serializable<TempoNode>
+  | Serializable<KeySignatureNode>
+  | Serializable<TimeSignatureNode>
+  | Serializable<NoteNode>
+  | Serializable<DashNode>
+  | Serializable<BarLineNode>
+  | Serializable<FineNode>
+  | Serializable<UnknownNode>
+
+export type SerializableParsedNotation = Omit<ParsedNotation, 'nodes'> & {
+  nodes: SerializableParsedNode[],
+}
+
+function stringifyNode(node: SerializableParsedNode) {
+  switch (node.type) {
+    case 'TempoNode':
+      return `!${node.beat}`
+    case 'KeySignatureNode':
+      return `${
+        node.tonic
+      }=${
+        node.accidental === -1 ? 'b' : (node.accidental === 1 ? '#' : '')
+      }${node.pitch}`
+    case 'TimeSignatureNode':
+      return `${node.beat}/${node.unit}`
+    case 'NoteNode':
+      return `${
+        node.continuation ? '^' : ''
+      }${
+        node.notation
+      }${
+        node.octave > 0 ? '+'.repeat(node.octave) : (node.octave < 0 ? '-'.repeat(-node.octave) : '')
+      }${
+        '_'.repeat(node.half)
+      }${
+        '.'.repeat(node.dot)
+      }${
+        node.accidental === -1 ? 'b' : (node.accidental === 1 ? '#' : '')
+      }${
+        node.leaning ? '&' : ''
+      }`
+    case 'DashNode':
+      return '-'
+    case 'BarLineNode':
+      return `${
+        node.repeat === 1 ? ':' : ''
+      }|${
+        node.end || node.repeat ? '|' : ''
+      }${
+        node.repeat === -1 ? ':' : ''
+      }`
+    case 'FineNode':
+      return `[${node.except}.`
+    case 'UnknownNode':
+      return node.raw
+    default:
+      break
+  }
+}
+
+export function stringify(notation: SerializableParsedNotation): string {
+  let result = ''
+  let lastPosition: Position | undefined
+  for (const node of notation.nodes) {
+    if (lastPosition) {
+      if (node.loc && node.loc.start.line > lastPosition.line) {
+        result += '\n'
+      } else {
+        result += ' '
+      }
+    }
+    lastPosition = node.loc ? node.loc.end : { line: 1, column: 1 }
+    result += stringifyNode(node)
+  }
+  return result
 }

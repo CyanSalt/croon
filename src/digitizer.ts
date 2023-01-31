@@ -70,7 +70,8 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
           + 2 * node.notation - (node.notation < 4 ? 1 : 2)
           + 12 * node.octave,
         )
-        const actualDuration = node.length * currentDuration * 4 / currentUnit
+        const noteLength = (2 ** -node.half) * ((2 ** (node.dot + 1) - 1) / 2 ** node.dot)
+        const actualDuration = noteLength * currentDuration * 4 / currentUnit
         const leaningDuration = hasLeaning ? currentDuration / 4 : 0
         nodes.push({
           type: 'FrequencyNode',
