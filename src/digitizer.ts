@@ -17,7 +17,7 @@ export interface FrequencyNode {
 export interface BreakNode {
   type: 'BreakNode',
   base: number,
-  target: number,
+  before: number,
   time: number,
 }
 
@@ -43,6 +43,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
   let currentRepeatingFrom = 0
   let currentRepeating = 1
   let currentFineExcept = 0
+  let lastNoteDuration = 0
   for (let index = 0, length = notation.nodes.length; index < length; index += 1) {
     const node = notation.nodes[index]
     if (
@@ -82,7 +83,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
           nodes.push({
             type: 'BreakNode',
             base: currentDuration,
-            target: actualDuration,
+            before: lastNoteDuration,
             time: currentTime,
           })
         }
@@ -92,12 +93,18 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
         if (node.leaning) {
           hasLeaning = true
         } else {
+          if (node.continuation) {
+            lastNoteDuration += actualDuration
+          } else {
+            lastNoteDuration = actualDuration
+          }
           currentTime += actualDuration
         }
         break
       }
       case 'DashNode': {
         const actualDuration = currentDuration * 4 / currentUnit
+        lastNoteDuration += actualDuration
         currentTime += actualDuration
         break
       }
@@ -127,7 +134,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
   nodes.push({
     type: 'BreakNode',
     base: currentDuration,
-    target: 0,
+    before: lastNoteDuration,
     time: currentTime,
   })
   return {

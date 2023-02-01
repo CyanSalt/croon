@@ -39,9 +39,9 @@ function play(notation: string | ParsedNotation | DigitizedNotation, options?: P
 
   Specify the global volume of the audio. Defaults to `1`.
 
-- `simulation?: 'keyboard'`
+- `simulation?: 'idiophone' | 'aerophone'`
 
-  Simulate the effect of an instrument. Currently supports `'keyboard'` to simulate keyboard instruments or `'wind'` to simulate wind instruments.
+  Simulate the effect of an instrument. Currently supports `'idiophone'` or `'aerophone'`.
 
 - `context?: AudioContext`
 

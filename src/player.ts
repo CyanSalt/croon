@@ -5,7 +5,7 @@ import type { ParsedNotation } from './parser.js'
 interface AudioOptions {
   waveform?: OscillatorType,
   gain?: number,
-  simulation?: 'keyboard' | 'wind',
+  simulation?: 'idiophone' | 'aerophone',
 }
 
 function generateAudioNodes(
@@ -34,16 +34,16 @@ function generateAudioNodes(
         oscillator.frequency.setValueAtTime(node.value, initialTime + node.time)
         break
       case 'BreakNode':
-        if (simulation === 'keyboard' || simulation === 'wind') {
+        if (simulation === 'idiophone') {
+          gain.gain.exponentialRampToValueAtTime(0.01, initialTime + node.time)
+        } else if (simulation === 'aerophone') {
+          gain.gain.exponentialRampToValueAtTime(baseGain ?? 1, initialTime + node.time - node.before / 4)
           gain.gain.exponentialRampToValueAtTime(0.01, initialTime + node.time)
         } else {
           gain.gain.setValueAtTime(baseGain ?? 1, initialTime + node.time)
           gain.gain.exponentialRampToValueAtTime(0.01, initialTime + node.time + node.base / 128)
         }
         gain.gain.exponentialRampToValueAtTime(baseGain ?? 1, initialTime + node.time + node.base / 64)
-        if (simulation === 'wind') {
-          gain.gain.exponentialRampToValueAtTime(baseGain ?? 1, initialTime + node.time + node.target * 3 / 4)
-        }
         break
     }
   }
