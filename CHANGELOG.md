@@ -1,5 +1,18 @@
 
 
+## [0.5.0](https://github.com/CyanSalt/croon/compare/v0.4.0...v0.5.0) (2023-02-01)
+
+
+### Features
+
+* add stringify function ([922b246](https://github.com/CyanSalt/croon/commit/922b246fa92e8423aaf4540e189a06fcc9780fbb))
+* add wind simulation ([fa1232e](https://github.com/CyanSalt/croon/commit/fa1232e39facf2f40e31126d90ec157a271dcf92))
+
+
+### Bug Fixes
+
+* rename simulations ([9c08b62](https://github.com/CyanSalt/croon/commit/9c08b627dffdfa9eb68dc43d8c0d06b77640b71b))
+
 ## [0.4.0](https://github.com/CyanSalt/croon/compare/v0.3.0...v0.4.0) (2023-01-31)
 
 
