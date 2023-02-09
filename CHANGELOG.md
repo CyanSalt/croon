@@ -1,5 +1,12 @@
 
 
+## [0.6.0](https://github.com/CyanSalt/croon/compare/v0.5.0...v0.6.0) (2023-02-09)
+
+
+### Features
+
+* support custom waveform ([1546588](https://github.com/CyanSalt/croon/commit/15465889ab6fe8d215d49a4d978c1f266cf2649d))
+
 ## [0.5.0](https://github.com/CyanSalt/croon/compare/v0.4.0...v0.5.0) (2023-02-01)
 
 
