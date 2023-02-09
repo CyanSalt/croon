@@ -3,7 +3,7 @@ import { digitize } from './digitizer.js'
 import type { ParsedNotation } from './parser.js'
 
 interface AudioOptions {
-  waveform?: OscillatorType,
+  waveform?: OscillatorType | PeriodicWaveOptions,
   gain?: number,
   simulation?: 'idiophone' | 'aerophone',
 }
@@ -21,7 +21,15 @@ function generateAudioNodes(
   const gain = context.createGain()
   const simulation = options?.simulation
   if (options?.waveform) {
-    oscillator.type = options.waveform
+    if (typeof options.waveform === 'string') {
+      oscillator.type = options.waveform
+    } else {
+      const periodicWave = context.createPeriodicWave(
+        options.waveform.real!,
+        options.waveform.imag!,
+      )
+      oscillator.setPeriodicWave(periodicWave)
+    }
   }
   const baseGain = options?.gain
   if (baseGain) {

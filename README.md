@@ -31,9 +31,11 @@ function play(notation: string | ParsedNotation | DigitizedNotation, options?: P
 
 `options` could have the following properties:
 
-- `waveform?: "custom" | "sawtooth" | "sine" | "square" | "triangle"`
+- `waveform?: "sawtooth" | "sine" | "square" | "triangle" | PeriodicWaveOptions`
 
   Specify what shape of waveform the oscillator will output. See also [here](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type).
+
+  If you wish to use instrument sounds, you can use [`@mohayonao/wave-tables`](https://npmjs.com/package/@mohayonao/wave-tables).
 
 - `gain?: number`
 

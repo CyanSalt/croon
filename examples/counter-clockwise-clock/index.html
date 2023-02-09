@@ -9,6 +9,7 @@
 <body>
   <button id="play">Play!</button>
   <script type="module">
+    import Piano from 'https://unpkg.com/@mohayonao/wave-tables/Piano.json' assert { type: 'json' }
     import { play } from 'https://unpkg.com/croonjs'
     let controller
     const scores = [
@@ -32,8 +33,9 @@
         scores.map(score => play(score, {
           context,
           signal: controller.signal,
-          waveform: 'square',
+          waveform: Piano,
           gain: 0.1,
+          simulation: 'idiophone'
         }))
       )
       return loop()
