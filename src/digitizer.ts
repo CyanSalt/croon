@@ -39,7 +39,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
   let currentDuration = 1
   let currentKeyNumber = 40
   let currentUnit = 4
-  let hasLeaning = false
+  let leaningCount = 0
   let currentRepeatingFrom = 0
   let currentRepeating = 1
   let currentFineExcept = 0
@@ -73,13 +73,13 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
         )
         const noteLength = (2 ** -node.half) * ((2 ** (node.dot + 1) - 1) / 2 ** node.dot)
         const actualDuration = noteLength * currentDuration * 4 / currentUnit
-        const leaningDuration = hasLeaning ? currentDuration / 4 : 0
+        const leaningDuration = leaningCount * (currentDuration / 4)
         nodes.push({
           type: 'FrequencyNode',
           value: frequency,
           time: currentTime + leaningDuration,
         })
-        if (!node.continuation && !hasLeaning && node.notation) {
+        if (!node.continuation && !leaningCount && node.notation) {
           nodes.push({
             type: 'BreakNode',
             base: currentDuration,
@@ -87,12 +87,10 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
             time: currentTime,
           })
         }
-        if (hasLeaning) {
-          hasLeaning = false
-        }
         if (node.leaning) {
-          hasLeaning = true
+          leaningCount += 1
         } else {
+          leaningCount = 0
           if (node.continuation) {
             lastNoteDuration += actualDuration
           } else {
