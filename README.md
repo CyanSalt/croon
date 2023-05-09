@@ -1,5 +1,7 @@
 # CroonJS
 
+[![npm](https://img.shields.io/npm/v/croonjs.svg)](https://www.npmjs.com/package/croonjs)
+
 CroonJS is a toolkit for parsing and playing [numbered musical notation](https://en.wikipedia.org/wiki/Numbered_musical_notation).
 
 ## Usage
