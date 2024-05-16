@@ -3,7 +3,6 @@
   "include": [
     "**/*.ts",
     "**/*.js",
-    "**/*.cjs",
-    ".eslintrc.cjs"
+    "**/*.cjs"
   ]
 }
