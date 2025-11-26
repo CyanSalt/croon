@@ -1,14 +1,7 @@
 {
-  "extends": "@cyansalt/tsconfig/tsconfig.lib",
-  "compilerOptions": {
-    "noEmit": false,
-    "declaration": true,
-    "rootDir": "src",
-    "outDir": "dist"
-  },
-  "exclude": [
-    "**/dist",
-    "**/examples",
-    "**/node_modules"
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.lib.json" },
+    { "path": "./tsconfig.node.json" }
   ]
 }

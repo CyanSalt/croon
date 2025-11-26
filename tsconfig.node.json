@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": ".typescript"
+  },
+  "include": [
+    "*.config.js",
+    "*.config.ts"
+  ]
+}
