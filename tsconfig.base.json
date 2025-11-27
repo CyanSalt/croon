@@ -1,7 +1,6 @@
 {
   "extends": "@cyansalt/tsconfig/tsconfig.lib.json",
   "compilerOptions": {
-    "composite": true,
-    "noEmit": false
+    "composite": true
   }
 }
