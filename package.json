@@ -31,7 +31,7 @@
   "homepage": "https://github.com/CyanSalt/croon#readme",
   "devDependencies": {
     "@cyansalt/eslint-config": "^4.0.0",
-    "@cyansalt/tsconfig": "^2.2.1",
+    "@cyansalt/tsconfig": "^3.0.0",
     "@release-it/conventional-changelog": "^8.0.1",
     "eslint": "^9.3.0",
     "release-it": "^17.0.0",
