@@ -8,6 +8,7 @@ export default config({
           project: [
             './tsconfig.lib.json',
             './tsconfig.node.json',
+            './tsconfig.test.json',
           ],
         },
       },

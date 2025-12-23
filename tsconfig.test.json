@@ -1,0 +1,12 @@
+{
+  "extends": "@cyansalt/tsconfig",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": [
+    "tests"
+  ],
+  "references": [
+    { "path": "./tsconfig.lib.json" }
+  ]
+}

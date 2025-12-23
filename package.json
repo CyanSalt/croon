@@ -12,6 +12,7 @@
     "example": "examples"
   },
   "scripts": {
+    "test": "vitest",
     "lint": "eslint --fix './**/*.{js,ts}'",
     "prepack": "tsdown",
     "release": "release-it"
@@ -37,6 +38,7 @@
     "eslint": "^9.3.0",
     "release-it": "^17.0.0",
     "tsdown": "^0.16.7",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.16"
   }
 }
