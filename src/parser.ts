@@ -254,6 +254,59 @@ export type SerializableParsedNotation = Omit<ParsedNotation, 'nodes'> & {
   nodes: SerializableParsedNode[],
 }
 
+export function divide(nodes: SerializableParsedNode[]): SerializableParsedNode[] {
+  let beats = 0
+  let timeSignature: Serializable<TimeSignatureNode> | undefined
+  const divided: SerializableParsedNode[] = []
+  for (const node of nodes) {
+    if (node.type === 'DividerNode') {
+      continue
+    }
+    if (node.type === 'FineNode') {
+      beats = 0
+      continue
+    }
+    if (node.type === 'TimeSignatureNode') {
+      if (beats) {
+        divided.push({
+          type: 'DividerNode',
+          raw: '|',
+          end: false,
+          repeat: 0,
+        } satisfies Serializable<DividerNode>)
+      }
+      beats = 0
+      timeSignature = node
+    }
+    if (timeSignature && beats >= timeSignature.beat) {
+      divided.push({
+        type: 'DividerNode',
+        raw: '|',
+        end: false,
+        repeat: 0,
+      } satisfies Serializable<DividerNode>)
+      beats = 0
+    }
+    divided.push(node)
+    if (timeSignature) {
+      if (node.type === 'NoteNode') {
+        beats += (2 ** -node.half) * ((2 ** (node.dot + 1) - 1) / 2 ** node.dot) * timeSignature.unit / 4
+      } else if (node.type === 'NoteLengthenNode') {
+        beats += timeSignature.unit / 4
+      }
+    }
+  }
+  if (timeSignature && beats >= timeSignature.beat) {
+    divided.push({
+      type: 'DividerNode',
+      raw: '||',
+      end: true,
+      repeat: 0,
+    } satisfies Serializable<DividerNode>)
+  }
+  return divided
+}
+
 function stringifyNode(node: SerializableParsedNode) {
   switch (node.type) {
     case 'TempoNode':
