@@ -243,6 +243,70 @@ export function parse(notation: string): MappedParsedNotation {
   }
 }
 
+interface MeasureValidationErrorAttributes {
+  beats: number,
+  timeSignature: TimeSignatureNode,
+  node: ParsedNode,
+}
+
+export class MeasureValidationError extends Error implements MeasureValidationErrorAttributes {
+  name = 'MeasureValidationError'
+  beats: number
+  timeSignature: TimeSignatureNode
+  node: ParsedNode
+  constructor({ beats, timeSignature, node }: MeasureValidationErrorAttributes) {
+    super(`The number of beats (${beats}) does not satisfy the time signature (${stringifyNode(timeSignature)})${node.loc ? ` at line ${node.loc.start.line}, column ${node.loc.start.column}` : ''}.`)
+    this.beats = beats
+    this.timeSignature = timeSignature
+    this.node = node
+  }
+}
+
+export function validate(notation: string | ParsedNotation) {
+  if (typeof notation === 'string') {
+    notation = parse(notation)
+  }
+  let beats = 0
+  let timeSignature: TimeSignatureNode | undefined
+  for (const node of notation.nodes) {
+    if (node.type === 'DividerNode' || node.type === 'FineNode') {
+      if (timeSignature && beats !== timeSignature.beat) {
+        throw new MeasureValidationError({
+          beats,
+          timeSignature,
+          node,
+        })
+      }
+      beats = 0
+    }
+    if (node.type === 'TimeSignatureNode') {
+      if (timeSignature && beats) {
+        throw new MeasureValidationError({
+          beats,
+          timeSignature,
+          node,
+        })
+      }
+      beats = 0
+      timeSignature = node
+    }
+    if (timeSignature) {
+      if (node.type === 'NoteNode') {
+        beats += (2 ** -node.half) * ((2 ** (node.dot + 1) - 1) / 2 ** node.dot) * timeSignature.unit / 4
+      } else if (node.type === 'NoteLengthenNode') {
+        beats += timeSignature.unit / 4
+      }
+    }
+  }
+  if (timeSignature && beats && beats !== timeSignature.beat) {
+    throw new MeasureValidationError({
+      beats,
+      timeSignature,
+      node: notation.nodes[notation.nodes.length - 1],
+    })
+  }
+}
+
 export function divide(nodes: ParsedNode[]): ParsedNode[] {
   let beats = 0
   let timeSignature: TimeSignatureNode | undefined
