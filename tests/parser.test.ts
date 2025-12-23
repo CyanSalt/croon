@@ -31,7 +31,9 @@ describe('stringify', () => {
   it('should stringify to pretty format', () => {
     const stringified = stringify({
       ...parsedNotation,
-      nodes: parsedNotation.nodes.map(({ loc, range, ...node }) => node),
+      nodes: parsedNotation.nodes
+        .filter(node => node.type !== 'DividerNode')
+        .map(({ loc, range, ...node }) => node),
     } as SerializableParsedNotation, {
       pretty: true,
     })

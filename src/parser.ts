@@ -376,7 +376,8 @@ export function stringify(notation: SerializableParsedNotation, options?: String
   let result = ''
   let lastPosition: Position | undefined
   let lastCategory: ReturnType<typeof getNodeCategory>
-  for (const node of notation.nodes) {
+  const nodes = options?.pretty ? divide(notation.nodes) : notation.nodes
+  for (const node of nodes) {
     let lineFeed = false
     if (lastPosition && node.loc && node.loc.start.line > lastPosition.line) {
       lineFeed = true
