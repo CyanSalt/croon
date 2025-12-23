@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { SerializableParsedNode, SerializableParsedNotation } from '../src'
+import type { ParsedNode, ParsedNotation } from '../src'
 import { divide, parse, stringify } from '../src'
 import parsedNotation from './fixtures/parsed-notation.json' with { type: 'json' }
 import score from './fixtures/score.txt?raw'
@@ -16,7 +16,7 @@ describe('parse', () => {
 describe('stringify', () => {
 
   it('should stringify notations correctly', () => {
-    const stringified = stringify(parsedNotation as SerializableParsedNotation)
+    const stringified = stringify(parsedNotation as ParsedNotation)
     expect(stringified).toEqual(score.trim())
   })
 
@@ -24,7 +24,7 @@ describe('stringify', () => {
     const stringified = stringify({
       ...parsedNotation,
       nodes: parsedNotation.nodes.map(({ loc, ...node }) => node),
-    } as SerializableParsedNotation)
+    } as ParsedNotation)
     expect(stringified.split(/\s+/)).toEqual(score.trim().split(/\s+/))
   })
 
@@ -34,7 +34,7 @@ describe('stringify', () => {
       nodes: parsedNotation.nodes
         .filter(node => node.type !== 'DividerNode')
         .map(({ loc, range, ...node }) => node),
-    } as SerializableParsedNotation, {
+    } as ParsedNotation, {
       pretty: true,
     })
     expect(stringified).toEqual(score)
@@ -45,7 +45,7 @@ describe('stringify', () => {
 describe('divide', () => {
 
   it('should divide notations correctly', () => {
-    const nodes = parsedNotation.nodes.map(({ loc, range, ...node }) => node) as SerializableParsedNode[]
+    const nodes = parsedNotation.nodes.map(({ loc, range, ...node }) => node) as ParsedNode[]
     const divided = divide(nodes)
     expect(divided).toEqual(nodes)
   })

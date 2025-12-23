@@ -5,9 +5,9 @@ export interface Position {
 
 export interface BaseParsedNode {
   type: string,
-  raw: string,
-  range: [number, number],
-  loc: {
+  raw?: string,
+  range?: [number, number],
+  loc?: {
     start: Position,
     end: Position,
   },
@@ -62,6 +62,7 @@ export interface FineNode extends BaseParsedNode {
 
 export interface UnknownNode extends BaseParsedNode {
   type: 'UnknownNode',
+  raw: string,
 }
 
 export type ParsedNode =
@@ -121,7 +122,13 @@ function getPosition(source: string, index: number): Position {
   }
 }
 
-function parseToken(token: string, index: number, source: string): ParsedNode {
+export type Mapped<T extends BaseParsedNode> = T & Required<Pick<T, 'raw' | 'range' | 'loc'>>
+
+export interface MappedParsedNotation extends ParsedNotation {
+  nodes: Mapped<ParsedNode>[],
+}
+
+function parseToken(token: string, index: number, source: string): Mapped<ParsedNode> {
   const range: BaseParsedNode['range'] = [index, index + token.length]
   const loc: BaseParsedNode['loc'] = {
     start: getPosition(source, index),
@@ -222,8 +229,8 @@ function parseToken(token: string, index: number, source: string): ParsedNode {
   }
 }
 
-export function parse(notation: string): ParsedNotation {
-  const nodes: ParsedNode[] = []
+export function parse(notation: string): MappedParsedNotation {
+  const nodes: Mapped<ParsedNode>[] = []
   let matches: RegExpExecArray | null
   const matcher = /\S+/g
   // eslint-disable-next-line no-cond-assign
@@ -236,28 +243,10 @@ export function parse(notation: string): ParsedNotation {
   }
 }
 
-export type Serializable<T extends BaseParsedNode> =
-  Omit<T, 'range' | 'loc'>
-  & Partial<Pick<T, 'range' | 'loc'>>
-
-export type SerializableParsedNode =
-  Serializable<TempoNode>
-  | Serializable<KeySignatureNode>
-  | Serializable<TimeSignatureNode>
-  | Serializable<NoteNode>
-  | Serializable<NoteLengthenNode>
-  | Serializable<DividerNode>
-  | Serializable<FineNode>
-  | Serializable<UnknownNode>
-
-export type SerializableParsedNotation = Omit<ParsedNotation, 'nodes'> & {
-  nodes: SerializableParsedNode[],
-}
-
-export function divide(nodes: SerializableParsedNode[]): SerializableParsedNode[] {
+export function divide(nodes: ParsedNode[]): ParsedNode[] {
   let beats = 0
-  let timeSignature: Serializable<TimeSignatureNode> | undefined
-  const divided: SerializableParsedNode[] = []
+  let timeSignature: TimeSignatureNode | undefined
+  const divided: ParsedNode[] = []
   for (const node of nodes) {
     if (node.type === 'DividerNode') {
       continue
@@ -273,7 +262,7 @@ export function divide(nodes: SerializableParsedNode[]): SerializableParsedNode[
           raw: '|',
           end: false,
           repeat: 0,
-        } satisfies Serializable<DividerNode>)
+        } satisfies DividerNode)
       }
       beats = 0
       timeSignature = node
@@ -284,7 +273,7 @@ export function divide(nodes: SerializableParsedNode[]): SerializableParsedNode[
         raw: '|',
         end: false,
         repeat: 0,
-      } satisfies Serializable<DividerNode>)
+      } satisfies DividerNode)
       beats = 0
     }
     divided.push(node)
@@ -302,12 +291,12 @@ export function divide(nodes: SerializableParsedNode[]): SerializableParsedNode[
       raw: '||',
       end: true,
       repeat: 0,
-    } satisfies Serializable<DividerNode>)
+    } satisfies DividerNode)
   }
   return divided
 }
 
-function stringifyNode(node: SerializableParsedNode) {
+function stringifyNode(node: ParsedNode) {
   switch (node.type) {
     case 'TempoNode':
       return `!${node.beat}`
@@ -358,7 +347,7 @@ export interface StringifyOptions {
   pretty?: boolean,
 }
 
-function getNodeCategory(node: Serializable<ParsedNode>) {
+function getNodeCategory(node: ParsedNode) {
   switch (node.type) {
     case 'TempoNode':
     case 'KeySignatureNode':
@@ -372,7 +361,7 @@ function getNodeCategory(node: Serializable<ParsedNode>) {
   }
 }
 
-export function stringify(notation: SerializableParsedNotation, options?: StringifyOptions): string {
+export function stringify(notation: ParsedNotation, options?: StringifyOptions): string {
   let result = ''
   let lastPosition: Position | undefined
   let lastCategory: ReturnType<typeof getNodeCategory>
