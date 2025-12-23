@@ -301,19 +301,50 @@ function stringifyNode(node: SerializableParsedNode) {
   }
 }
 
-export function stringify(notation: SerializableParsedNotation): string {
+export interface StringifyOptions {
+  pretty?: boolean,
+}
+
+function getNodeCategory(node: Serializable<ParsedNode>) {
+  switch (node.type) {
+    case 'TempoNode':
+    case 'KeySignatureNode':
+    case 'TimeSignatureNode':
+      return 'signature'
+    case 'NoteNode':
+    case 'DashNode':
+      return 'note'
+    default:
+      return undefined
+  }
+}
+
+export function stringify(notation: SerializableParsedNotation, options?: StringifyOptions): string {
   let result = ''
   let lastPosition: Position | undefined
+  let lastCategory: ReturnType<typeof getNodeCategory>
   for (const node of notation.nodes) {
-    if (lastPosition) {
-      if (node.loc && node.loc.start.line > lastPosition.line) {
-        result += '\n'
-      } else {
-        result += ' '
+    let lineFeed = false
+    if (lastPosition && node.loc && node.loc.start.line > lastPosition.line) {
+      lineFeed = true
+    }
+    if (options?.pretty) {
+      const category = getNodeCategory(node)
+      if (!lineFeed && category && lastCategory && category !== lastCategory) {
+        lineFeed = true
       }
+      if (category) {
+        lastCategory = category
+      }
+    }
+    if (lastPosition) {
+      result += lineFeed ? '\n' : ' '
     }
     lastPosition = node.loc ? node.loc.end : { line: 1, column: 1 }
     result += stringifyNode(node)
+  }
+  if (options?.pretty) {
+    result += '\n'
   }
   return result
 }

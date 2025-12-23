@@ -1,870 +1,870 @@
 {
+  "type": "ParsedNotation",
   "nodes": [
     {
-      "accidental": -1,
+      "type": "KeySignatureNode",
+      "range": [
+        0,
+        4
+      ],
       "loc": {
-        "end": {
-          "column": 6,
-          "line": 2
-        },
         "start": {
-          "column": 2,
-          "line": 2
+          "line": 1,
+          "column": 2
+        },
+        "end": {
+          "line": 1,
+          "column": 6
         }
       },
-      "pitch": "B",
-      "range": [
-        1,
-        5
-      ],
       "raw": "1=bB",
       "tonic": 1,
-      "type": "KeySignatureNode"
+      "accidental": -1,
+      "pitch": "B"
     },
     {
-      "beat": 4,
+      "type": "TimeSignatureNode",
+      "range": [
+        5,
+        8
+      ],
       "loc": {
-        "end": {
-          "column": 10,
-          "line": 2
-        },
         "start": {
-          "column": 7,
-          "line": 2
+          "line": 1,
+          "column": 7
+        },
+        "end": {
+          "line": 1,
+          "column": 10
         }
       },
-      "range": [
-        6,
-        9
-      ],
       "raw": "4/4",
-      "type": "TimeSignatureNode",
+      "beat": 4,
       "unit": 4
     },
     {
-      "beat": 97,
+      "type": "TempoNode",
+      "range": [
+        9,
+        12
+      ],
       "loc": {
-        "end": {
-          "column": 14,
-          "line": 2
-        },
         "start": {
-          "column": 11,
-          "line": 2
+          "line": 1,
+          "column": 11
+        },
+        "end": {
+          "line": 1,
+          "column": 14
         }
       },
-      "range": [
-        10,
-        13
-      ],
       "raw": "!97",
-      "type": "TempoNode"
+      "beat": 97
     },
     {
-      "accidental": 0,
-      "continuation": false,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
+      "type": "NoteNode",
+      "range": [
+        13,
+        16
+      ],
       "loc": {
-        "end": {
-          "column": 5,
-          "line": 3
-        },
         "start": {
-          "column": 2,
-          "line": 3
+          "line": 2,
+          "column": 2
+        },
+        "end": {
+          "line": 2,
+          "column": 5
         }
       },
+      "raw": "6+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 6,
       "octave": 1,
-      "range": [
-        14,
-        17
-      ],
-      "raw": "6+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        17,
+        20
+      ],
       "loc": {
-        "end": {
-          "column": 9,
-          "line": 3
-        },
         "start": {
-          "column": 6,
-          "line": 3
+          "line": 2,
+          "column": 6
+        },
+        "end": {
+          "line": 2,
+          "column": 9
         }
       },
+      "raw": "5+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 5,
       "octave": 1,
-      "range": [
-        18,
-        21
-      ],
-      "raw": "5+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        21,
+        24
+      ],
       "loc": {
-        "end": {
-          "column": 13,
-          "line": 3
-        },
         "start": {
-          "column": 10,
-          "line": 3
+          "line": 2,
+          "column": 10
+        },
+        "end": {
+          "line": 2,
+          "column": 13
         }
       },
+      "raw": "3+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 3,
       "octave": 1,
-      "range": [
-        22,
-        25
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        25,
+        28
+      ],
       "loc": {
-        "end": {
-          "column": 17,
-          "line": 3
-        },
         "start": {
-          "column": 14,
-          "line": 3
+          "line": 2,
+          "column": 14
+        },
+        "end": {
+          "line": 2,
+          "column": 17
         }
       },
-      "notation": 2,
-      "octave": 1,
-      "range": [
-        26,
-        29
-      ],
       "raw": "2+_",
-      "type": "NoteNode"
-    },
-    {
+      "continuation": false,
       "accidental": 0,
-      "continuation": true,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 22,
-          "line": 3
-        },
-        "start": {
-          "column": 18,
-          "line": 3
-        }
-      },
       "notation": 2,
       "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
       "range": [
-        30,
-        34
+        29,
+        33
       ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 18
+        },
+        "end": {
+          "line": 2,
+          "column": 22
+        }
+      },
       "raw": "^2+_",
-      "type": "NoteNode"
-    },
-    {
+      "continuation": true,
       "accidental": 0,
-      "continuation": false,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 26,
-          "line": 3
-        },
-        "start": {
-          "column": 23,
-          "line": 3
-        }
-      },
-      "notation": 3,
-      "octave": 1,
-      "range": [
-        35,
-        38
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 30,
-          "line": 3
-        },
-        "start": {
-          "column": 27,
-          "line": 3
-        }
-      },
       "notation": 2,
       "octave": 1,
-      "range": [
-        39,
-        42
-      ],
-      "raw": "2+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        34,
+        37
+      ],
       "loc": {
-        "end": {
-          "column": 34,
-          "line": 3
-        },
         "start": {
-          "column": 31,
-          "line": 3
+          "line": 2,
+          "column": 23
+        },
+        "end": {
+          "line": 2,
+          "column": 26
         }
       },
+      "raw": "3+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 3,
       "octave": 1,
-      "range": [
-        43,
-        46
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
-      "end": false,
-      "loc": {
-        "end": {
-          "column": 36,
-          "line": 3
-        },
-        "start": {
-          "column": 35,
-          "line": 3
-        }
-      },
-      "range": [
-        47,
-        48
-      ],
-      "raw": "|",
-      "repeat": 0,
-      "type": "BarLineNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        38,
+        41
+      ],
       "loc": {
-        "end": {
-          "column": 39,
-          "line": 3
-        },
         "start": {
-          "column": 37,
-          "line": 3
+          "line": 2,
+          "column": 27
+        },
+        "end": {
+          "line": 2,
+          "column": 30
         }
       },
+      "raw": "2+_",
+      "continuation": false,
+      "accidental": 0,
+      "notation": 2,
+      "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        42,
+        45
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 31
+        },
+        "end": {
+          "line": 2,
+          "column": 34
+        }
+      },
+      "raw": "3+_",
+      "continuation": false,
+      "accidental": 0,
+      "notation": 3,
+      "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "BarLineNode",
+      "range": [
+        46,
+        47
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 35
+        },
+        "end": {
+          "line": 2,
+          "column": 36
+        }
+      },
+      "raw": "|",
+      "end": false,
+      "repeat": 0
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        48,
+        50
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 37
+        },
+        "end": {
+          "line": 2,
+          "column": 39
+        }
+      },
+      "raw": "6_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 6,
       "octave": 0,
-      "range": [
-        49,
-        51
-      ],
-      "raw": "6_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        51,
+        54
+      ],
       "loc": {
-        "end": {
-          "column": 43,
-          "line": 3
-        },
         "start": {
-          "column": 40,
-          "line": 3
+          "line": 2,
+          "column": 40
+        },
+        "end": {
+          "line": 2,
+          "column": 43
         }
       },
+      "raw": "1+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 1,
       "octave": 1,
-      "range": [
-        52,
-        55
-      ],
-      "raw": "1+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        55,
+        58
+      ],
       "loc": {
-        "end": {
-          "column": 47,
-          "line": 3
-        },
         "start": {
-          "column": 44,
-          "line": 3
+          "line": 2,
+          "column": 44
+        },
+        "end": {
+          "line": 2,
+          "column": 47
         }
       },
+      "raw": "2+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 2,
       "octave": 1,
-      "range": [
-        56,
-        59
-      ],
-      "raw": "2+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 51,
-          "line": 3
-        },
-        "start": {
-          "column": 48,
-          "line": 3
-        }
-      },
-      "notation": 3,
-      "octave": 1,
-      "range": [
-        60,
-        63
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
+      "leaning": false
     },
     {
+      "type": "NoteNode",
+      "range": [
+        59,
+        62
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 48
+        },
+        "end": {
+          "line": 2,
+          "column": 51
+        }
+      },
+      "raw": "3+_",
+      "continuation": false,
       "accidental": 0,
+      "notation": 3,
+      "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        63,
+        67
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 52
+        },
+        "end": {
+          "line": 2,
+          "column": 56
+        }
+      },
+      "raw": "^3+.",
       "continuation": true,
+      "accidental": 0,
+      "notation": 3,
+      "octave": 1,
       "dot": 1,
       "half": 0,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 56,
-          "line": 3
-        },
-        "start": {
-          "column": 52,
-          "line": 3
-        }
-      },
-      "notation": 3,
-      "octave": 1,
-      "range": [
-        64,
-        68
-      ],
-      "raw": "^3+.",
-      "type": "NoteNode"
+      "leaning": false
     },
     {
-      "accidental": 0,
-      "continuation": false,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
+      "type": "NoteNode",
+      "range": [
+        68,
+        70
+      ],
       "loc": {
-        "end": {
-          "column": 59,
-          "line": 3
-        },
         "start": {
-          "column": 57,
-          "line": 3
+          "line": 2,
+          "column": 57
+        },
+        "end": {
+          "line": 2,
+          "column": 59
         }
       },
+      "raw": "0_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 0,
       "octave": 0,
-      "range": [
-        69,
-        71
-      ],
-      "raw": "0_",
-      "type": "NoteNode"
-    },
-    {
-      "end": false,
-      "loc": {
-        "end": {
-          "column": 61,
-          "line": 3
-        },
-        "start": {
-          "column": 60,
-          "line": 3
-        }
-      },
-      "range": [
-        72,
-        73
-      ],
-      "raw": "|",
-      "repeat": 0,
-      "type": "BarLineNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "BarLineNode",
+      "range": [
+        71,
+        72
+      ],
       "loc": {
-        "end": {
-          "column": 65,
-          "line": 3
-        },
         "start": {
-          "column": 62,
-          "line": 3
+          "line": 2,
+          "column": 60
+        },
+        "end": {
+          "line": 2,
+          "column": 61
         }
       },
+      "raw": "|",
+      "end": false,
+      "repeat": 0
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        73,
+        76
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 62
+        },
+        "end": {
+          "line": 2,
+          "column": 65
+        }
+      },
+      "raw": "6+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 6,
       "octave": 1,
-      "range": [
-        74,
-        77
-      ],
-      "raw": "6+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        77,
+        80
+      ],
       "loc": {
-        "end": {
-          "column": 69,
-          "line": 3
-        },
         "start": {
-          "column": 66,
-          "line": 3
+          "line": 2,
+          "column": 66
+        },
+        "end": {
+          "line": 2,
+          "column": 69
         }
       },
+      "raw": "5+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 5,
       "octave": 1,
-      "range": [
-        78,
-        81
-      ],
-      "raw": "5+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        81,
+        84
+      ],
       "loc": {
-        "end": {
-          "column": 73,
-          "line": 3
-        },
         "start": {
-          "column": 70,
-          "line": 3
+          "line": 2,
+          "column": 70
+        },
+        "end": {
+          "line": 2,
+          "column": 73
         }
       },
+      "raw": "3+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 3,
       "octave": 1,
-      "range": [
-        82,
-        85
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        85,
+        88
+      ],
       "loc": {
-        "end": {
-          "column": 77,
-          "line": 3
-        },
         "start": {
-          "column": 74,
-          "line": 3
+          "line": 2,
+          "column": 74
+        },
+        "end": {
+          "line": 2,
+          "column": 77
         }
       },
-      "notation": 2,
-      "octave": 1,
-      "range": [
-        86,
-        89
-      ],
       "raw": "2+_",
-      "type": "NoteNode"
-    },
-    {
+      "continuation": false,
       "accidental": 0,
-      "continuation": true,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 82,
-          "line": 3
-        },
-        "start": {
-          "column": 78,
-          "line": 3
-        }
-      },
       "notation": 2,
       "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
       "range": [
-        90,
-        94
+        89,
+        93
       ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 78
+        },
+        "end": {
+          "line": 2,
+          "column": 82
+        }
+      },
       "raw": "^2+_",
-      "type": "NoteNode"
-    },
-    {
+      "continuation": true,
       "accidental": 0,
-      "continuation": false,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 86,
-          "line": 3
-        },
-        "start": {
-          "column": 83,
-          "line": 3
-        }
-      },
-      "notation": 3,
-      "octave": 1,
-      "range": [
-        95,
-        98
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 90,
-          "line": 3
-        },
-        "start": {
-          "column": 87,
-          "line": 3
-        }
-      },
       "notation": 2,
       "octave": 1,
-      "range": [
-        99,
-        102
-      ],
-      "raw": "2+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        94,
+        97
+      ],
       "loc": {
-        "end": {
-          "column": 94,
-          "line": 3
-        },
         "start": {
-          "column": 91,
-          "line": 3
+          "line": 2,
+          "column": 83
+        },
+        "end": {
+          "line": 2,
+          "column": 86
         }
       },
+      "raw": "3+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 3,
       "octave": 1,
-      "range": [
-        103,
-        106
-      ],
-      "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
-      "end": false,
-      "loc": {
-        "end": {
-          "column": 96,
-          "line": 3
-        },
-        "start": {
-          "column": 95,
-          "line": 3
-        }
-      },
-      "range": [
-        107,
-        108
-      ],
-      "raw": "|",
-      "repeat": 0,
-      "type": "BarLineNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        98,
+        101
+      ],
       "loc": {
-        "end": {
-          "column": 99,
-          "line": 3
-        },
         "start": {
-          "column": 97,
-          "line": 3
+          "line": 2,
+          "column": 87
+        },
+        "end": {
+          "line": 2,
+          "column": 90
         }
       },
+      "raw": "2+_",
+      "continuation": false,
+      "accidental": 0,
+      "notation": 2,
+      "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        102,
+        105
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 91
+        },
+        "end": {
+          "line": 2,
+          "column": 94
+        }
+      },
+      "raw": "3+_",
+      "continuation": false,
+      "accidental": 0,
+      "notation": 3,
+      "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "BarLineNode",
+      "range": [
+        106,
+        107
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 95
+        },
+        "end": {
+          "line": 2,
+          "column": 96
+        }
+      },
+      "raw": "|",
+      "end": false,
+      "repeat": 0
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        108,
+        110
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 97
+        },
+        "end": {
+          "line": 2,
+          "column": 99
+        }
+      },
+      "raw": "6_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 6,
       "octave": 0,
-      "range": [
-        109,
-        111
-      ],
-      "raw": "6_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        111,
+        114
+      ],
       "loc": {
-        "end": {
-          "column": 103,
-          "line": 3
-        },
         "start": {
-          "column": 100,
-          "line": 3
+          "line": 2,
+          "column": 100
+        },
+        "end": {
+          "line": 2,
+          "column": 103
         }
       },
+      "raw": "1+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 1,
       "octave": 1,
-      "range": [
-        112,
-        115
-      ],
-      "raw": "1+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        115,
+        118
+      ],
       "loc": {
-        "end": {
-          "column": 107,
-          "line": 3
-        },
         "start": {
-          "column": 104,
-          "line": 3
+          "line": 2,
+          "column": 104
+        },
+        "end": {
+          "line": 2,
+          "column": 107
         }
       },
+      "raw": "2+_",
+      "continuation": false,
+      "accidental": 0,
       "notation": 2,
       "octave": 1,
-      "range": [
-        116,
-        119
-      ],
-      "raw": "2+_",
-      "type": "NoteNode"
-    },
-    {
-      "accidental": 0,
-      "continuation": false,
       "dot": 0,
       "half": 1,
-      "leaning": false,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        119,
+        122
+      ],
       "loc": {
-        "end": {
-          "column": 111,
-          "line": 3
-        },
         "start": {
-          "column": 108,
-          "line": 3
+          "line": 2,
+          "column": 108
+        },
+        "end": {
+          "line": 2,
+          "column": 111
         }
       },
-      "notation": 3,
-      "octave": 1,
-      "range": [
-        120,
-        123
-      ],
       "raw": "3+_",
-      "type": "NoteNode"
-    },
-    {
+      "continuation": false,
       "accidental": 0,
-      "continuation": true,
-      "dot": 0,
-      "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 116,
-          "line": 3
-        },
-        "start": {
-          "column": 112,
-          "line": 3
-        }
-      },
       "notation": 3,
       "octave": 1,
-      "range": [
-        124,
-        128
-      ],
-      "raw": "^3+_",
-      "type": "NoteNode"
+      "dot": 0,
+      "half": 1,
+      "leaning": false
     },
     {
+      "type": "NoteNode",
+      "range": [
+        123,
+        127
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 112
+        },
+        "end": {
+          "line": 2,
+          "column": 116
+        }
+      },
+      "raw": "^3+_",
+      "continuation": true,
       "accidental": 0,
+      "notation": 3,
+      "octave": 1,
+      "dot": 0,
+      "half": 1,
+      "leaning": false
+    },
+    {
+      "type": "NoteNode",
+      "range": [
+        128,
+        129
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 117
+        },
+        "end": {
+          "line": 2,
+          "column": 118
+        }
+      },
+      "raw": "0",
       "continuation": false,
+      "accidental": 0,
+      "notation": 0,
+      "octave": 0,
       "dot": 0,
       "half": 0,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 118,
-          "line": 3
-        },
-        "start": {
-          "column": 117,
-          "line": 3
-        }
-      },
-      "notation": 0,
-      "octave": 0,
-      "range": [
-        129,
-        130
-      ],
-      "raw": "0",
-      "type": "NoteNode"
+      "leaning": false
     },
     {
-      "accidental": 0,
+      "type": "NoteNode",
+      "range": [
+        130,
+        132
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 119
+        },
+        "end": {
+          "line": 2,
+          "column": 121
+        }
+      },
+      "raw": "0_",
       "continuation": false,
+      "accidental": 0,
+      "notation": 0,
+      "octave": 0,
       "dot": 0,
       "half": 1,
-      "leaning": false,
-      "loc": {
-        "end": {
-          "column": 121,
-          "line": 3
-        },
-        "start": {
-          "column": 119,
-          "line": 3
-        }
-      },
-      "notation": 0,
-      "octave": 0,
-      "range": [
-        131,
-        133
-      ],
-      "raw": "0_",
-      "type": "NoteNode"
+      "leaning": false
     },
     {
-      "end": true,
+      "type": "BarLineNode",
+      "range": [
+        133,
+        135
+      ],
       "loc": {
-        "end": {
-          "column": 124,
-          "line": 3
-        },
         "start": {
-          "column": 122,
-          "line": 3
+          "line": 2,
+          "column": 122
+        },
+        "end": {
+          "line": 2,
+          "column": 124
         }
       },
-      "range": [
-        134,
-        136
-      ],
       "raw": "||",
-      "repeat": 0,
-      "type": "BarLineNode"
+      "end": true,
+      "repeat": 0
     }
-  ],
-  "type": "ParsedNotation"
+  ]
 }
