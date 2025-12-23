@@ -262,7 +262,7 @@
       "leaning": false
     },
     {
-      "type": "BarLineNode",
+      "type": "DividerNode",
       "range": [
         46,
         47
@@ -432,7 +432,7 @@
       "leaning": false
     },
     {
-      "type": "BarLineNode",
+      "type": "DividerNode",
       "range": [
         71,
         72
@@ -652,7 +652,7 @@
       "leaning": false
     },
     {
-      "type": "BarLineNode",
+      "type": "DividerNode",
       "range": [
         106,
         107
@@ -847,7 +847,7 @@
       "leaning": false
     },
     {
-      "type": "BarLineNode",
+      "type": "DividerNode",
       "range": [
         133,
         135

@@ -45,12 +45,12 @@ export interface NoteNode extends BaseParsedNode {
   leaning: boolean,
 }
 
-export interface DashNode extends BaseParsedNode {
-  type: 'DashNode',
+export interface NoteLengthenNode extends BaseParsedNode {
+  type: 'NoteLengthenNode',
 }
 
-export interface BarLineNode extends BaseParsedNode {
-  type: 'BarLineNode',
+export interface DividerNode extends BaseParsedNode {
+  type: 'DividerNode',
   end: boolean,
   repeat: 0 | 1 | -1,
 }
@@ -69,8 +69,8 @@ export type ParsedNode =
   | KeySignatureNode
   | TimeSignatureNode
   | NoteNode
-  | DashNode
-  | BarLineNode
+  | NoteLengthenNode
+  | DividerNode
   | FineNode
   | UnknownNode
 
@@ -187,7 +187,7 @@ function parseToken(token: string, index: number, source: string): ParsedNode {
   }
   if (token === '-') {
     return {
-      type: 'DashNode',
+      type: 'NoteLengthenNode',
       range,
       loc,
       raw: token,
@@ -196,7 +196,7 @@ function parseToken(token: string, index: number, source: string): ParsedNode {
   const barLineMatches = token.match(/^(?:(\|{1,2})|(\|{2}:)|(:\|{2}))$/)
   if (barLineMatches) {
     return {
-      type: 'BarLineNode',
+      type: 'DividerNode',
       range,
       loc,
       raw: token,
@@ -245,8 +245,8 @@ export type SerializableParsedNode =
   | Serializable<KeySignatureNode>
   | Serializable<TimeSignatureNode>
   | Serializable<NoteNode>
-  | Serializable<DashNode>
-  | Serializable<BarLineNode>
+  | Serializable<NoteLengthenNode>
+  | Serializable<DividerNode>
   | Serializable<FineNode>
   | Serializable<UnknownNode>
 
@@ -282,9 +282,9 @@ function stringifyNode(node: SerializableParsedNode) {
       }${
         node.leaning ? '&' : ''
       }`
-    case 'DashNode':
+    case 'NoteLengthenNode':
       return '-'
-    case 'BarLineNode':
+    case 'DividerNode':
       return `${
         node.repeat === 1 ? ':' : ''
       }|${
@@ -312,7 +312,7 @@ function getNodeCategory(node: Serializable<ParsedNode>) {
     case 'TimeSignatureNode':
       return 'signature'
     case 'NoteNode':
-    case 'DashNode':
+    case 'NoteLengthenNode':
       return 'note'
     default:
       return undefined

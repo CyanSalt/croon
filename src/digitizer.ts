@@ -48,7 +48,7 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
     const node = notation.nodes[index]
     if (
       currentFineExcept && currentFineExcept !== currentRepeating
-      && !(node.type === 'BarLineNode' && node.repeat === 1)
+      && !(node.type === 'DividerNode' && node.repeat === 1)
     ) continue
     switch (node.type) {
       case 'TempoNode':
@@ -100,13 +100,13 @@ export function digitize(notation: string | ParsedNotation): DigitizedNotation {
         }
         break
       }
-      case 'DashNode': {
+      case 'NoteLengthenNode': {
         const actualDuration = currentDuration * 4 / currentUnit
         lastNoteDuration += actualDuration
         currentTime += actualDuration
         break
       }
-      case 'BarLineNode':
+      case 'DividerNode':
         if (node.repeat === -1) {
           currentRepeatingFrom = index
         } else if (node.repeat === 1) {
