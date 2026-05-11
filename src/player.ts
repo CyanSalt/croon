@@ -13,10 +13,10 @@ function generateAudioNodes(
   notation: DigitizedNotation,
   options?: AudioOptions,
 ): {
-    source: AudioScheduledSourceNode,
-    destination: AudioNode,
-    duration: number,
-  } {
+  source: AudioScheduledSourceNode,
+  destination: AudioNode,
+  duration: number,
+} {
   const oscillator = context.createOscillator()
   const gain = context.createGain()
   const simulation = options?.simulation

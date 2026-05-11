@@ -14,6 +14,7 @@
   "scripts": {
     "test": "vitest",
     "lint": "eslint --fix './**/*.{js,ts}'",
+    "lint:ci": "eslint --max-warnings 0 './**/*.{js,ts}'",
     "prepack": "tsdown",
     "release": "release-it"
   },
@@ -31,14 +32,32 @@
     "url": "https://github.com/CyanSalt/croon/issues"
   },
   "homepage": "https://github.com/CyanSalt/croon#readme",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.15.0",
+      "onFail": "error"
+    },
+    "packageManager": [
+      {
+        "name": "pnpm",
+        "version": "^11.0.0",
+        "onFail": "error"
+      },
+      {
+        "name": "npm",
+        "onFail": "ignore"
+      }
+    ]
+  },
   "devDependencies": {
-    "@cyansalt/eslint-config": "^4.0.0",
-    "@cyansalt/tsconfig": "^3.0.0",
-    "@release-it/conventional-changelog": "^8.0.1",
-    "eslint": "^9.3.0",
-    "release-it": "^17.0.0",
-    "tsdown": "^0.16.7",
-    "typescript": "^5.3.3",
-    "vitest": "^4.0.16"
+    "@cyansalt/eslint-config": "^4.6.0",
+    "@cyansalt/tsconfig": "^3.0.2",
+    "@release-it/conventional-changelog": "^11.0.0",
+    "eslint": "^10.3.0",
+    "release-it": "^20.0.1",
+    "tsdown": "^0.22.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5"
   }
 }

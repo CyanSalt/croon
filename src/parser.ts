@@ -65,8 +65,8 @@ export interface UnknownNode extends BaseParsedNode {
   raw: string,
 }
 
-export type ParsedNode =
-  TempoNode
+export type ParsedNode
+  = TempoNode
   | KeySignatureNode
   | TimeSignatureNode
   | NoteNode
